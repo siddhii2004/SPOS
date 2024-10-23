@@ -1,0 +1,150 @@
+Group-B
+Assignment-1
+
+Name - Siddhi Lokhande
+Div - B-03
+Problem Statement :-
+Write a program to solve classical problems of Synchronization 
+using Mutex and Semaphore (Reader-Writer Problem).
+
+import java.util.Scanner;
+import java.util.concurrent.Semaphore;
+
+class RW
+{
+
+	public static void main(String[] args) 
+	{
+		ReaderWriter rw = new ReaderWriter();
+		Scanner sc = new Scanner(System.in);
+		
+		rw.new Reader();
+		rw.new Reader();
+		rw.new Reader();
+		rw.new Writer();
+		rw.new Reader();
+		rw.new Reader();
+		rw.new Writer();
+		rw.new Reader();
+		rw.new Reader();
+		
+	}
+
+}
+class ReaderWriter
+{
+
+	Semaphore readers = new Semaphore(0);
+	Semaphore mutex = new Semaphore(1);
+	Semaphore writers = new Semaphore(0);
+	static int rd = 0;
+	static int count = 1;
+	static int wr = 0;
+	Scanner sc = new Scanner(System.in);
+
+	static String msg = "Hello World!";
+	
+
+	class Writer implements Runnable
+	{
+		Writer()
+		{
+			// rd = 0;
+			Thread t = new Thread(this,"Writer");
+
+			t.start();
+		}
+
+		public void run()
+		{
+			try
+			{	
+				
+				mutex.acquire();
+				writers.release();
+
+				if(wr == 0 && rd == 0)
+				{
+					wr++;
+					System.out.print("Enter Message to be written : ");
+					msg = sc.nextLine();
+				}
+				else
+					System.out.println("Readers are Reading!");
+				
+				mutex.release();
+				writers.acquire();
+				wr--;
+			}
+			catch(InterruptedException e)
+			{
+				System.out.println(e.getMessage());
+			}
+
+
+		}
+	}
+
+	class Reader implements Runnable
+	{
+		int no = count;
+
+		Reader()
+		{
+			count++;
+			Thread t = new Thread(this,"Reader");
+
+			t.start();
+		}
+
+		public void run()
+		{
+			try
+			{
+				
+				mutex.acquire();
+				readers.release();
+
+				if(wr == 0)
+				{
+					rd++;
+					System.out.println("Reader " + no + " is reading : " + msg);
+					Thread.sleep(1000); // Simulating Reading time.
+					rd--;
+				}
+				else
+					System.out.println("A Writer is Writing!");
+
+				mutex.release();
+				readers.acquire();
+				
+				System.out.println("Reader " + no + " is Done!");
+				
+			}
+			catch(InterruptedException e)
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+}
+/*
+OUTPUT : 
+
+Reader 1 is reading : Hello World!
+Reader 2 is reading : Hello World!
+Reader 1 is Done!
+Reader 3 is reading : Hello World!
+Reader 2 is Done!
+Reader 3 is Done!
+Enter Message to be written : Good Morning
+Reader 4 is reading : Good Morning
+Reader 4 is Done!
+Reader 5 is reading : Good Morning
+Reader 5 is Done!
+Enter Message to be written : Ain't no way
+Reader 6 is reading : Ain't no way
+Reader 6 is Done!
+Reader 7 is reading : Ain't no way
+Reader 7 is Done!
+*/

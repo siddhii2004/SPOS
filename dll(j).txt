@@ -1,0 +1,38 @@
+Group-A
+Assignment-2
+
+Name - Siddhi Lokhande
+Div - B-03
+Problem Statement :-
+Write a program to create a Dynamic Link Library 
+for Any Mathematical operation (Arithimetic,Geometric,String Operation) & Write an application
+program to test it (Java Native Interface / Use VB /VC++).
+
+public class testJni
+{
+	static
+	{
+		System.loadLibrary("native");
+	}
+	public static void main(String args[])
+	{
+		int a = 10, b = 20;
+		System.out.println("Addition is "+ new testJni().add(a,b));
+		System.out.println("Subtraction is "+ new testJni().sub(b,a));
+		System.out.println("Multiplication is "+ new testJni().sub(b,a));
+		System.out.println("Division is "+ new testJni().sub(b,a));
+	}
+	private native int add(int n1,int n2);
+	private native int sub(int n1,int n2);
+	private native int mul(int n1,int n2);
+	private native int div(double n1,double n2);
+}
+
+gescoe@gescoe-OptiPlex-3010:~/Desktop/TE_03_SPOS/DLL$ javac -h . testJni.java
+gescoe@gescoe-OptiPlex-3010:~/Desktop/TE_03_SPOS/DLL$ gcc -c -fPIC -I/usr/lib/jvm/java-11-openjdk-amd64/include -I/usr/lib/jvm/java-11-openjdk-amd64/include/linux testJni.c -o testJni -lc
+gescoe@gescoe-OptiPlex-3010:~/Desktop/TE_03_SPOS/DLL$ java -Djava.library.path=. testJni
+Addition is 30
+Subtraction is 10
+Multiplication is 10
+Division is 10
+gescoe@gescoe-OptiPlex-3010:~/Desktop/TE_03_SPOS/DLL$ 

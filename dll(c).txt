@@ -1,0 +1,38 @@
+Group-A
+Assignment-2
+
+Name - Siddhi Lokhande 
+Div - B-03
+ Problem Statement :-
+Write a program to create a Dynamic Link Library 
+for Any Mathematical operation (Arithimetic,Geometric,String Operation) & Write an application
+program to test it (Java Native Interface / Use VB /VC++).
+
+#include<jni.h>
+#include<stdio.h>
+#include "testJni.h" 
+JNIEXPORT jint JNICALL Java_testJni_add(JNIEnv *e, jobject obj, jint a, jint b)
+{
+	jint res;
+	res = a + b;
+	return res;
+}
+JNIEXPORT jint JNICALL Java_testJni_sub(JNIEnv *e, jobject o, jint a, jint b)
+{
+	jint res;
+	res = a - b;
+	return res;
+}
+JNIEXPORT jint JNICALL Java_testJni_mul(JNIEnv *e, jobject o, jint a,  jint b)
+{
+	jint res;
+	res = a * b;
+	return res;
+}
+
+JNIEXPORT jint JNICALL Java_testJni_div(JNIEnv *e, jobject o, jdouble a, jdouble b)
+{
+	jint res;
+	res = a / b;
+	return res;
+}
